@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+
+import java.time.Duration;
 
 @Service
 public class ChatService {
@@ -63,6 +66,19 @@ public class ChatService {
                 .options(ChatOptions.builder()
                         .temperature(0.0)
                         .build())
+                .call()
+                .content();
+    }
+
+    public Flux<String> streamChat(String prompt) {
+        return ollamaChatClient.prompt().user(prompt).stream().content().bufferTimeout(20, Duration.ofMillis(200)) // group tokens
+                .map(tokens -> String.join("", tokens)); 
+    }
+
+    public String toolsChat(String prompt) {
+        return ollamaChatClient.prompt()
+                .user(prompt)
+                .functions("com.example.springai.tools")
                 .call()
                 .content();
     }
