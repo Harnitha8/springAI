@@ -1,8 +1,10 @@
 package com.learning.springAI.controller;
 
 import com.learning.springAI.service.ChatService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 public class ChatController {
@@ -48,5 +50,13 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(value = "/stream/{prompt}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> streamChat(@PathVariable String prompt) {
+        return chatService.streamChat(prompt);
+    }
 
+    @GetMapping("/tools/{prompt}")
+    public String toolsChat(@PathVariable String prompt) {
+        return chatService.toolsChat(prompt);
+    }
 }
