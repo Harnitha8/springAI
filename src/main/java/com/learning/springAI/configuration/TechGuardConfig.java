@@ -12,7 +12,7 @@ public class TechGuardConfig {
     public SafeGuardAdvisor techQuestionGuard() {
         List<String> forbidden = List.of("politics", "cinema");
         return SafeGuardAdvisor.builder()
-                .sensitiveWords(List.of())
+                .sensitiveWords(forbidden)
                 .failureResponse("Sorry, I can't.")
                 .order(0)
                 .build();

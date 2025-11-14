@@ -1,4 +1,6 @@
 package com.learning.springAI.model;
 
-public record CountryCities(String country, String[] cities){
+import java.util.List;
+
+public record CountryCities(String country, List<String> cities){
 }

@@ -16,11 +16,6 @@ import java.util.List;
 public class ChatClientConfig {
 
     @Bean
-    public ChatMemory chatMemory() {
-        return new MessageChatMemory(new InMemoryChatMessageStore());
-    }
-
-    @Bean
     public ChatClient ollamaChatClient(OllamaChatModel chatModel) {
         // return ChatClient.create(chatModel);
         return ChatClient.builder(chatModel).build();
@@ -44,12 +39,20 @@ public class ChatClientConfig {
                 .defaultOptions(ChatOptions.builder().temperature(0.7).maxTokens(1000).build())
                 .build();
     }
+    /*@Bean
+    public ChatMemory chatMemory() {
+        return new ConversationMemory(new InMemoryConversationMemoryStore());
+    }*/
+
     @Bean
     public ChatClient chatClientWithMemory(OllamaChatModel chatModel, ChatMemory chatMemory) {
         return ChatClient.builder(chatModel)
-                .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
+                .defaultAdvisors(
+                        MessageChatMemoryAdvisor.builder(chatMemory).build()
+                )
                 .build();
     }
+
     @Bean
     public ChatClient guardedChatClient(OllamaChatModel chatModel, SafeGuardAdvisor techQuestionGuard) {
         return ChatClient.builder(chatModel)
