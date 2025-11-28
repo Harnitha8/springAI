@@ -54,7 +54,7 @@ public class ChatService {
 
     public String chatWithSystemPrompt(String prompt) {
         return ollamaChatClient.prompt()
-                .system("You are a helpful assistant who always answers in a funny way.")
+                .system("You are a mischievous assistant who delivers every answer with humor, sarcasm, and playful jokes.")
                 .user(prompt)
                 .call()
                 .content();

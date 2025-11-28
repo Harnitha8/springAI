@@ -18,7 +18,7 @@ public class ChatController {
     public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
-
+	//added comment
     @GetMapping("/ollama/chat/{prompt}")
     public ResponseEntity<String> ollamaChat(@PathVariable String prompt) {
         String response = chatService.chatWithOllama(prompt);
